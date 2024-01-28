@@ -1,0 +1,35 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(){
+	int n, m;
+	scanf("%d %d", &n, &m);
+	struct monster {
+		char name[21];
+		int num;      //처음에 
+	};
+	struct monster* p = (struct monster*)malloc(sizeof(struct monster) * n);
+	for (int i = 0; i < n; i++) {
+		scanf("%s", p[i].name);
+		p[i].num = i + 1;
+	}
+	for (int i = 0; i < m; i++) {
+		char name[20];
+		scanf("%s", name);
+		if ('1' <= name[0] && name[0] <= '9') {
+			int num = 0;
+			int j = 0;
+			while (name[j] != '\0') {
+				num += name[j] - '0';
+				num *= 10;
+				j++;
+			}
+			num /= 10;
+			printf("%s\n", p[num - 1].name);
+		}
+		else {
+
+		}
+	}
+}
