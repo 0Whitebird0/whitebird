@@ -1,0 +1,44 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct number {
+	char address[21];
+	char pw[21];
+};
+
+int compare(const void* a, const void* b) {
+	return strcmp(((struct number*)a)->address, ((struct number*)b)->address);
+}
+int main(){
+	int n, m;
+	scanf("%d %d", &n, &m);
+	struct number* p = (struct number*)malloc(sizeof(struct number) * n);
+	for (int i = 0; i < n; i++) {
+		scanf("%s %s", p[i].address, p[i].pw);
+	}
+	qsort(p, n, sizeof(struct number), compare);
+	for (int i = 0; i < m; i++) {
+		char name[21];
+		scanf("%s", name);
+		int left = 0;
+		int right = n - 1;
+		while (left <= right) {
+			int mid = (left + right) / 2;
+			int cmp = strcmp(p[mid].address, name);
+			if (cmp == 0) {
+				printf("%s\n", p[mid].pw);
+				break;
+			}
+			else if (cmp < 0) {
+				left = mid + 1;
+			}
+			else {
+				right = mid - 1;
+			}
+		}
+}
+	free(p);
+	return 0;
+}
