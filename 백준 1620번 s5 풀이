@@ -1,19 +1,27 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
+struct monster {
+	char name[21];
+	int num;
+};
+
+int compare(const void* a, const void* b) {
+	return strcmp(((struct monster*)a)->name, ((struct monster*)b)->name);
+}
 int main(){
 	int n, m;
 	scanf("%d %d", &n, &m);
-	struct monster {
-		char name[21];
-		int num;      //처음에 
-	};
 	struct monster* p = (struct monster*)malloc(sizeof(struct monster) * n);
+	struct monster* dp = (struct monster*)malloc(sizeof(struct monster) * n);
 	for (int i = 0; i < n; i++) {
 		scanf("%s", p[i].name);
-		p[i].num = i + 1;
+		strcpy(dp[i].name, p[i].name);
+		dp[i].num = i;
 	}
+	qsort(dp, n, sizeof(struct monster), compare);
 	for (int i = 0; i < m; i++) {
 		char name[20];
 		scanf("%s", name);
@@ -29,7 +37,27 @@ int main(){
 			printf("%s\n", p[num - 1].name);
 		}
 		else {
-
+			// 이진 탐색
+			int left = 0;
+			int right = n - 1;
+			while (left <= right) {
+				int mid = (left + right) / 2;
+				int cmp = strcmp(dp[mid].name, name);
+				if (cmp == 0) {
+					printf("%d\n", dp[mid].num + 1); // 찾은 경우, 중간 인덱스 출력
+					break;
+				}
+				else if (cmp < 0) {
+					left = mid + 1;
+				}
+				else {
+					right = mid - 1;
+				}
+			}
 		}
 	}
+	free(p);
+	free(dp);
+
+	return 0;
 }
