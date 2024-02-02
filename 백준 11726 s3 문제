@@ -1,0 +1,20 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+int box(int x) {
+	int* p = (int*)malloc(sizeof(int) * x);
+	p[0] = 1;
+	p[1] = 2;
+	for (int i = 2; i < x; i++) {
+		p[i] = p[i - 1] + p[i - 2];
+		p[i] %= 10007;
+	}
+	return(p[x-1]);
+}
+int main() {
+	int n;
+	scanf("%d", &n);
+	printf("%d", box(n));
+	return 0;
+}
