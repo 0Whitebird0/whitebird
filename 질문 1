@@ -1,0 +1,68 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+int main()
+{
+    int array[20000001] = { 0 };
+    int a;
+    scanf("%d", &a);
+    for (int i = 0; i < a; i++) {
+        int n;
+        scanf("%d", &n);
+        array[10000000 + n]++;
+    }
+    scanf("%d", &a);
+    for (int i = 0; i < a; i++) {
+        int n;
+        scanf("%d", &n);
+        printf("%d ", array[10000000 + n]);
+    }
+    return 0;
+}
+///
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 20000001
+
+int main() {
+    int* array = (int*)calloc(MAX_SIZE, sizeof(int)); // 동적 할당을 통해 배열 생성
+    if (array == NULL) {
+        printf("메모리 할당에 실패했습니다.\n");
+        return 1;
+    }
+    
+    int a;
+    
+    // 첫 번째 입력을 읽음
+    scanf("%d", &a);
+    
+    // 'a'개의 정수를 읽어들이고 발생 횟수를 계산하는 루프
+    for (int i = 0; i < a; i++) {
+        int n;
+        scanf("%d", &n);
+        if (n < -10000000 || n > 10000000) {
+            printf("입력 범위를 초과하였습니다.\n");
+            return 1;
+        }
+        array[10000000 + n]++; // 주어진 정수의 발생 횟수를 증가
+    }
+    
+    // 두 번째 입력을 읽음
+    scanf("%d", &a);
+    
+    // 두 번째 입력을 기반으로 정수의 발생 횟수를 출력하는 루프
+    for (int i = 0; i < a; i++) {
+        int n;
+        scanf("%d", &n);
+        if (n < -10000000 || n > 10000000) {
+            printf("입력 범위를 초과하였습니다.\n");
+            return 1;
+        }
+        printf("%d ", array[10000000 + n]); // 주어진 정수의 발생 횟수를 출력
+    }
+    
+    free(array); // 동적 할당 해제
+    
+    return 0;
+}
