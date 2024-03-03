@@ -1,0 +1,73 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+struct printer {
+    int order;
+    int importance;
+};
+void flag_func(struct printer* p, int n, int* flag, int j, int* start, int* pqr) {
+    for (int i = 0; i < n; i++) {
+        if (p[(*start) + i].importance == j) {
+            *flag = 1;
+            *pqr = (*start) + i;
+        }
+    }
+}
+void pushpop(struct printer* p, int j, int* end, int* start, int* cnt, int* pqr) {
+    int star_t = *start;
+    int en_d = *end;
+    for (int i = star_t; i < (*pqr)+1; i++) {
+        if (p[*start].importance == j) {
+            (*start)++;
+            (*cnt)++;
+        }
+        else {
+            p[*end].order = p[*start].order;
+            p[*end].importance = p[*start].importance;
+            (*start)++; (*end)++;
+        }
+    }
+}
+int main() {
+    int num;
+    scanf("%d", &num);
+    for (int i = 0; i < num; i++) {
+        int n, des;
+        scanf("%d %d", &n, &des);
+        struct printer* p = (struct printer*)malloc(sizeof(struct printer) * n*10+1);
+
+        for (int j = 0; j < n; j++) {
+            scanf("%d", &p[j].importance);
+            p[j].order = j;
+        }
+        int end = n;
+        int start = 0;
+        int cnt = 0;
+        int result;
+        int pqr = 0;
+        result = p[des].importance;
+        int flag = 0;
+        for (int j = 9; j > result; j--) {
+            flag = 0;
+            flag_func(p, n - cnt, &flag, j, &start, &pqr);
+            if(flag == 1)
+                pushpop(p, j, &end, &start, &cnt, &pqr);
+        }
+        start--;
+        end--;
+        
+        while (1) {
+            if (p[start].importance == result && p[start].order == des) {
+                cnt++;
+                break;
+            }
+            else if((p[start].importance == result))
+                cnt++;
+            start++;
+        }
+        printf("%d\n", cnt);
+        free(p);
+    }
+    return 0;
+}
