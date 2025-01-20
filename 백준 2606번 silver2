@@ -1,0 +1,36 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int matrix[101][101] = { 0 };
+int visited[101] = { 0 };
+
+void dfs(int n, int vertex) {
+	visited[vertex] = 1;
+	for (int i = 1; i <= n; i++) {
+		if (!visited[i] && matrix[vertex][i])
+			dfs(n, i);
+	}
+}
+
+int main(){
+	int n = 0;
+	scanf("%d", &n);
+	int n2 = 0;
+	scanf("%d", &n2);
+
+	for (int i = 0; i < n2; i++) {
+		int com1, com2;
+		scanf("%d %d", &com1, &com2);
+		matrix[com1][com2] = 1;
+		matrix[com2][com1] = 1;
+	}
+	dfs(n, 1);
+	int m = 0;
+	for (int i = 1; i <= n; i++) {
+		if (visited[i] == 1)
+			m++;
+	}
+	printf("%d", m-1);
+}
