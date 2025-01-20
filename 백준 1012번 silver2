@@ -1,0 +1,55 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int matrix[50][50] = { 0 };
+int visited[50][50] = { 0 };
+int maxx, maxy, val;
+int jilungyee = 0;
+
+void init(int m, int n) {
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++) {
+			matrix[j][i] = 0;
+			visited[j][i] = 0;
+		}
+	}
+	jilungyee = 0;
+}
+// 초기화를 잘못했는데, xy값을 바꿔썼다. 근데 왜 2 2 가 아니라 2 1이 나왔을까? 
+// 새로운 지렁이라고 생각하지 못했구나. 라는것을 알게되었다.
+void bachue(int k, int l) {
+	if (((0 <= k && k < maxy) || (0 <= l && l < maxx)) && matrix[k][l] && !visited[k][l]) {
+		visited[k][l]++;
+		bachue(k + 1, l);
+		bachue(k - 1, l);
+		bachue(k, l - 1);
+		bachue(k, l + 1);
+	}
+}
+
+
+int main(){
+	int n;
+	scanf("%d", &n);
+	for (int i = 0; i < n; i++) {
+		scanf("%d %d %d", &maxx, &maxy, &val);
+		init(maxx, maxy);
+		for (int j = 0; j < val; j++) {
+			int x, y;
+			scanf("%d %d", &x, &y);
+			matrix[y][x]++;
+		}
+		for (int k = 0; k < maxy; k++) {
+			for (int l = 0; l < maxx; l++) {
+				if (matrix[k][l] == 1 && !visited[k][l]) {
+					jilungyee++;
+					bachue(k, l);
+				}
+			}
+		}
+		printf("%d\n", jilungyee);
+	}
+	
+}
