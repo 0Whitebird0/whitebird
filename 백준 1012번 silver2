@@ -20,7 +20,7 @@ void init(int m, int n) {
 // 초기화를 잘못했는데, xy값을 바꿔썼다. 근데 왜 2 2 가 아니라 2 1이 나왔을까? 
 // 새로운 지렁이라고 생각하지 못했구나. 라는것을 알게되었다.
 void bachue(int k, int l) {
-	if (((0 <= k && k < maxy) || (0 <= l && l < maxx)) && matrix[k][l] && !visited[k][l]) {
+	if (((0 <= k && k < maxy) && (0 <= l && l < maxx)) && matrix[k][l] && !visited[k][l]) {
 		visited[k][l]++;
 		bachue(k + 1, l);
 		bachue(k - 1, l);
