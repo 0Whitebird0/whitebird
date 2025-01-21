@@ -1,0 +1,66 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int heap[100001];
+int top=1;
+
+void insert_heap(int val) {
+	heap[top] = val;
+	int i = top++;
+	while (i != 1) {
+		int temp;
+		if (heap[i / 2] > heap[i]) {
+			temp = heap[i / 2];
+			heap[i / 2] = heap[i];
+			heap[i] = temp;
+		}
+		i /= 2;
+	}
+}
+
+void pop_heap() {
+	if (top == 1) {
+		printf("0\n");
+		return;
+	}
+	top--;
+	int i = 1;
+	int j = top;
+	printf("%d\n", heap[i]);
+	heap[i] = heap[j];
+	heap[j] = 0;
+	while (i * 2 < top) {
+		int min_child = i * 2;
+
+		if (min_child + 1 < top && heap[min_child + 1] < heap[min_child]) {
+			min_child++;
+		}
+
+		if (heap[i] <= heap[min_child]) {
+			break;
+		}
+
+		int temp = heap[i];
+		heap[i] = heap[min_child];
+		heap[min_child] = temp;
+
+		i = min_child;
+	}
+
+}
+int main() {
+	int n;
+	scanf("%d", &n);
+	for (int i = 0; i < n; i++) {
+		int num;
+		scanf("%d", &num);
+		if (num == 0) {
+			pop_heap();
+		}
+		else {
+			insert_heap(num);
+		}
+	}
+}
